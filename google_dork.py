@@ -11,30 +11,32 @@ class Google:
 		self.emails = []
 
 	def search(self):
-		text = input("Enter Keyword: ")
+		site = input("Enter site: ")
+		intext = input("Enter intext: ")
 		pages = input("How many pages?")
 		start = 0
 		for i in range(int(pages)):
 			print(f"Page number {i+1}")
-			print(self.google_search(text, str(start)))
+			print(self.google_search(site, intext, str(start)))
 			start = int(start) + 10
 
-	def extract_links(self, html):
+	def extract_links(self, html, intext):
 		soup = BeautifulSoup(html, 'html.parser')
 		for link in soup.select('.r a:not([class])'):
 			res = requests.get(link['href'])
-			email = re.findall('[a-zA-Z0-9_.+-]+@intel.com', res.text)
+			email = re.findall('[a-zA-Z0-9_.+-]+' + intext, res.text)
 			self.emails.append(email)
 			print(email)
 
-	def google_search(self, text, start='0'):
+	def google_search(self, site, intext, start='0'):
+		text = 'site:' + site + ' ' + 'intext:' + intext
 		newparams = {
 			'q': text,
 			'oq': text,
 			'start': start
 		}
 		response = requests.get(self.url, params=newparams, headers=headers_parser(headers))
-		self.extract_links(response.text)
+		self.extract_links(response.text, intext)
 
 
 headers = '''Host: www.google.com
