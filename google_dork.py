@@ -1,8 +1,16 @@
-# doing a google research of all the urls in a page
+# doing google_dorks in one or more pages
 import requests
 from bs4 import BeautifulSoup
 from header_parser import headers_parser
 import re
+
+headers = '''Host: www.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Referer: https://www.google.com/
+Cookie: CGIC=Ij90ZXh0L2h0bWwsYXBwbGljYXRpb24veGh0bWwreG1sLGFwcGxpY2F0aW9uL3htbDtxPTAuOSwqLyo7cT0wLjg; NID=197=E-4YOt-eDGaujR68iLrzNVD1PhmVWpjLEQF7jUMq4f-Xkx>
+Connection: keep-alive'''
 
 class Google:
 	def __init__(self):
@@ -38,14 +46,6 @@ class Google:
 		response = requests.get(self.url, params=newparams, headers=headers_parser(headers))
 		self.extract_links(response.text, intext)
 
-
-headers = '''Host: www.google.com
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
-Accept: */*
-Accept-Language: en-US,en;q=0.5
-Referer: https://www.google.com/
-Cookie: CGIC=Ij90ZXh0L2h0bWwsYXBwbGljYXRpb24veGh0bWwreG1sLGFwcGxpY2F0aW9uL3htbDtxPTAuOSwqLyo7cT0wLjg; NID=197=E-4YOt-eDGaujR68iLrzNVD1PhmVWpjLEQF7jUMq4f-Xkx>
-Connection: keep-alive'''
-
-search = Google()
-search.search()
+if __name__ == "__main__":
+	search = Google()
+	search.search()
